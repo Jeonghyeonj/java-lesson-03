@@ -8,9 +8,9 @@ import java.util.Scanner;
 public class SnakeGameWithoutTails {
 
     private static final int BOARD_SIZE = 10;
-    // 0 - ë¹ˆ íƒ€ì¼
-    // 1 - ìŠ¤ë„¤ì´í¬ ë¸”ëŸ­
-    // 2 - ì•„ì´í…œ
+    // 0 - ºó Å¸ÀÏ
+    // 1 - ½º³×ÀÌÅ© ºí·°
+    // 2 - ¾ÆÀÌÅÛ
     private static final int[][] board = new int[BOARD_SIZE][BOARD_SIZE];
 
     private static final Random RANDOM = new Random();
@@ -23,10 +23,10 @@ public class SnakeGameWithoutTails {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             printBoard();
-            System.out.print("[ìš°ì¸¡ (r) | ì¢Œì¸¡ (l) | ìœ„ (u) | ì•„ë˜ (d) | ì¢…ë£Œ (0) ] : ");
+            System.out.print("[¿ìÃø (r) | ÁÂÃø (l) | À§ (u) | ¾Æ·¡ (d) | Á¾·á (0) ] : ");
             if (!nextDirection(scanner.next())) {
-                System.out.println("ê²Œì„ ì˜¤ë²„!");
-                System.out.printf("ì ìˆ˜: %d\n", score);
+                System.out.println("°ÔÀÓ ¿À¹ö!");
+                System.out.printf("Á¡¼ö: %d\n", score);
                 break;
             }
             if (!hasItemOnBoard())
@@ -35,21 +35,58 @@ public class SnakeGameWithoutTails {
     }
 
     /**
-     * í•´ë‹¹ ë©”ì„œë“œëŠ” ë‹¤ìŒê³¼ ê°™ì€ ì—­í• ì„ ê°€ì ¸ì•¼ í•©ë‹ˆë‹¤ :
-     * ì‚¬ìš©ìì˜ ì…ë ¥ì„ ë°›ê³ , ë‹¤ìŒ ìœ„ì¹˜ë¡œ ì˜®ê¸°ê±°ë‚˜ ê²Œì„ì„ ì¢…ë£Œí•´ì•¼ í•©ë‹ˆë‹¤.
+     * ÇØ´ç ¸Ş¼­µå´Â ´ÙÀ½°ú °°Àº ¿ªÇÒÀ» °¡Á®¾ß ÇÕ´Ï´Ù :
+     * »ç¿ëÀÚÀÇ ÀÔ·ÂÀ» ¹Ş°í, ´ÙÀ½ À§Ä¡·Î ¿Å±â°Å³ª °ÔÀÓÀ» Á¾·áÇØ¾ß ÇÕ´Ï´Ù.
      * <p>
-     * í—ˆìš©ë˜ëŠ” ì…ë ¥ì€ ë‹¤ìŒê³¼ ê°™ìŠµë‹ˆë‹¤ :
-     * - ìš°ì¸¡(r) | ì¢Œì¸¡ (l) | ìœ„ (u) | ì•„ë˜ (d) | ì¢…ë£Œ (0)
+     * Çã¿ëµÇ´Â ÀÔ·ÂÀº ´ÙÀ½°ú °°½À´Ï´Ù :
+     * - ¿ìÃø(r) | ÁÂÃø (l) | À§ (u) | ¾Æ·¡ (d) | Á¾·á (0)
      * <p>
-     * ë‹¤ìŒ ì¢Œí‘œëŠ” location ë³€ìˆ˜ì— ê³„ì†í•´ì„œ ì—…ë°ì´íŠ¸ë˜ì–´ì•¼ í•©ë‹ˆë‹¤.
-     * ë§Œì•½ ë‹¤ìŒ ì¢Œí‘œì— ì•„ì´í…œì´ ì¡´ì¬í•œë‹¤ë©´, ì ìˆ˜ë¥¼ 1 ì¦ê°€í•˜ê³  ë‹¤ìŒ ì¢Œí‘œì˜ ê°’ì„ 0ìœ¼ë¡œ ë˜ëŒë ¤ì•¼ í•©ë‹ˆë‹¤.
+     * ´ÙÀ½ ÁÂÇ¥´Â location º¯¼ö¿¡ °è¼ÓÇØ¼­ ¾÷µ¥ÀÌÆ®µÇ¾î¾ß ÇÕ´Ï´Ù.
+     * ¸¸¾à ´ÙÀ½ ÁÂÇ¥¿¡ ¾ÆÀÌÅÛÀÌ Á¸ÀçÇÑ´Ù¸é, Á¡¼ö¸¦ 1 Áõ°¡ÇÏ°í ´ÙÀ½ ÁÂÇ¥ÀÇ °ªÀ» 0À¸·Î µÇµ¹·Á¾ß ÇÕ´Ï´Ù.
      *
-     * ë§Œì•½ ê°’ì´ ìµœëŒ€ ê°’ (BOARD_SIZE)ì´ìƒì´ ë˜ê±°ë‚˜ ìµœì†Œ ê°’(0) ì•„ë˜ë¡œ ë‚´ë ¤ê°„ë‹¤ë©´ ê°™ì€ ì¢Œí‘œë¡œ ì„¤ì •í•˜ì—¬ ì´ë™í•˜ì§€ ì•Šë„ë¡ í•´ì•¼í•©ë‹ˆë‹¤.
+     * ¸¸¾à °ªÀÌ ÃÖ´ë °ª (BOARD_SIZE)ÀÌ»óÀÌ µÇ°Å³ª ÃÖ¼Ò °ª(0) ¾Æ·¡·Î ³»·Á°£´Ù¸é °°Àº ÁÂÇ¥·Î ¼³Á¤ÇÏ¿© ÀÌµ¿ÇÏÁö ¾Êµµ·Ï ÇØ¾ßÇÕ´Ï´Ù.
      *
-     * ë§Œì•½ ì‚¬ìš©ìì˜ ì…ë ¥ì´ ì¢…ë£Œ(0)ì˜€ë‹¤ë©´, falseê°’ì„ ë°˜í™˜í•˜ì—¬ ê²Œì„ì„ ì¢…ë£Œí•´ì•¼ í•©ë‹ˆë‹¤.
+     * ¸¸¾à »ç¿ëÀÚÀÇ ÀÔ·ÂÀÌ Á¾·á(0)¿´´Ù¸é, false°ªÀ» ¹İÈ¯ÇÏ¿© °ÔÀÓÀ» Á¾·áÇØ¾ß ÇÕ´Ï´Ù.
      */
     private static boolean nextDirection(String keyword) {
-        throw new RuntimeException("ì´ ì½”ë“œ ë¼ì¸ì„ ì§€ìš°ê³ , ì´ê³³ì—ì„œ ì‘ì„±í•˜ì‹­ì‹œì˜¤.");
+            switch (keyword) {
+                case "r":
+                    moveSnake(0, 1); // Move right
+                    break;
+                case "l":
+                    moveSnake(0, -1); // Move left
+                    break;
+                case "u":
+                    moveSnake(-1, 0); // Move up
+                    break;
+                case "d":
+                    moveSnake(1, 0); // Move down
+                    break;
+                case "0":
+                    return false; // End the game
+                default:
+                    System.out.println("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.");
+            }
+            return true;
+        }
+
+        private static void moveSnake(int dx, int dy) {
+            int newX = location.getX() + dx;
+            int newY = location.getY() + dy;
+
+            // Check if new coordinates are out of bounds
+            if (newX < 0 || newX >= BOARD_SIZE || newY < 0 || newY >= BOARD_SIZE) {
+                return; // Don't move if out of bounds
+            }
+
+            // Update the snake's location
+            location = new SnakeLocation(newX, newY);
+
+            // Check if the new location has an item
+            if (board[newX][newY] == 2) {
+                score++; // Increase score
+                board[newX][newY] = 0; // Remove the item from the board
+            }
     }
 
     private static void printBoard() {
@@ -59,15 +96,15 @@ public class SnakeGameWithoutTails {
         for (int x = 0; x < BOARD_SIZE; x++) {
             for (int y = 0; y < BOARD_SIZE; y++) {
                 if (location.getX() == x && location.getY() == y) {
-                    System.out.print("â—¼ ");
+                    System.out.print("? ");
                     continue;
                 }
                 switch (board[x][y]) {
                     case 0:
-                        System.out.print("ãƒ» ");
+                        System.out.print("? ");
                         break;
                     case 1:
-                        System.out.print("â—¼");
+                        System.out.print("?");
                         break;
                     case 2:
                         System.out.println("* ");
@@ -79,12 +116,12 @@ public class SnakeGameWithoutTails {
     }
 
     private static void placeRandomItem() {
-        // forë¬¸ì˜ ì¡°ê±´ìœ¼ë¡œ ëœë¤ì„ ë„£ì„ ê²½ìš°, ê³„ì† ë¹„êµí•˜ì—¬ ìµœì¢… ê²°ê³¼ê°’ì´ ë°”ë€Œë¯€ë¡œ ë³€ìˆ˜ë¡œ ì„ ì–¸í•©ë‹ˆë‹¤.
+        // for¹®ÀÇ Á¶°ÇÀ¸·Î ·£´ıÀ» ³ÖÀ» °æ¿ì, °è¼Ó ºñ±³ÇÏ¿© ÃÖÁ¾ °á°ú°ªÀÌ ¹Ù²î¹Ç·Î º¯¼ö·Î ¼±¾ğÇÕ´Ï´Ù.
         int toPlace = (int) (RANDOM.nextDouble() * 10);
         for (int i = 0; i < toPlace; i++) {
             int retry = 0;
             while (retry < 5) {
-                SnakeLocation locate = new SnakeLocation(RANDOM.nextInt() * BOARD_SIZE, RANDOM.nextInt() * BOARD_SIZE);
+                SnakeLocation locate = new SnakeLocation((int)(RANDOM.nextDouble() * (BOARD_SIZE-1)), (int)(RANDOM.nextDouble() * (BOARD_SIZE-1)));
                 if (board[locate.getX()][locate.getY()] != 0) {
                     retry++;
                     continue;
