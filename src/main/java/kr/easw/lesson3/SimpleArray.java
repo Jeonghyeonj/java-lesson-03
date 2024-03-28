@@ -14,26 +14,26 @@ public class SimpleArray {
         boolean isMatched = true;
         for (int i = 0; i < 10; i++) {
             if (arrays[i] != answer[i]) {
-                System.out.printf("ê°’ì´ ì¼ì°¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. (ì¸ë±ìŠ¤ %d)\n", i);
+                System.out.printf("°ªÀÌ ÀÏÂ÷ÇÏÁö ¾Ê½À´Ï´Ù. (ÀÎµ¦½º %d)\n", i);
                 isMatched = false;
             }
         }
         if (isMatched) {
-            System.out.println("ì •ë‹µì…ë‹ˆë‹¤.");
+            System.out.println("Á¤´äÀÔ´Ï´Ù.");
         } else {
-            System.out.println("ì˜¤ë‹µì…ë‹ˆë‹¤.");
+            System.out.println("¿À´äÀÔ´Ï´Ù.");
         }
     }
 
     /**
-     * í•´ë‹¹ ë©”ì„œë“œëŠ” ë‹¤ìŒê³¼ ê°™ì€ ì—­í• ì„ ê°€ì ¸ì•¼ í•©ë‹ˆë‹¤ :
-     * ì£¼ì–´ì§„ ì¸ë±ìŠ¤ë¥¼ ì´ìš©í•˜ì—¬ array ë³€ìˆ˜ì— ë‹¤ìŒ ìˆ˜ì‹ì„ ì ìš©í•˜ì—¬ ì¶”ê°€í•´ì•¼ í•©ë‹ˆë‹¤.
+     * ÇØ´ç ¸Ş¼­µå´Â ´ÙÀ½°ú °°Àº ¿ªÇÒÀ» °¡Á®¾ß ÇÕ´Ï´Ù :
+     * ÁÖ¾îÁø ÀÎµ¦½º¸¦ ÀÌ¿ëÇÏ¿© array º¯¼ö¿¡ ´ÙÀ½ ¼ö½ÄÀ» Àû¿ëÇÏ¿© Ãß°¡ÇØ¾ß ÇÕ´Ï´Ù.
      * <p>
      * (index x 7 / 5) ^ 2
      * <p>
-     * * ^2ëŠ” ì œê³±ì˜ ì˜ë¯¸ë¡œ ì‚¬ìš©ë˜ì—ˆìŠµë‹ˆë‹¤.
+     * * ^2´Â Á¦°öÀÇ ÀÇ¹Ì·Î »ç¿ëµÇ¾ú½À´Ï´Ù.
      */
     private static void fillArray(int index) {
-        throw new RuntimeException("ì´ ì½”ë“œ ë¼ì¸ì„ ì§€ìš°ê³ , ì´ê³³ì—ì„œ ì‘ì„±í•˜ì‹­ì‹œì˜¤.");
-    }
+            arrays[index] = (int) Math.pow((index * 7 / 5), 2);
+        }
 }
